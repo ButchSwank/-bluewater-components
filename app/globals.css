@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy-900: #0A192F;
+  --navy-800: #112240;
+  --blue-600: #2563EB;
+  --accent: #0EA5E9;
+  --silver-100: #F8FAFC;
+}
+
+body {
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+/* Industrial Professional Styling */
+.section-heading {
+  position: relative;
+  display: inline-block;
+}
+
+.section-heading::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, #2563EB, #0EA5E9);
+  border-radius: 3px;
+}
+
+/* Card Styles - Clean Industrial */
+.card {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.2s cubic-bezier(0.4, 0.0, 0.2, 1),
+              border-color 0.2s ease;
+  border: 1px solid #E2E8F0;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  border-color: #CBD5E1;
+}
+
+/* Product Card Specific */
+.product-card {
+  overflow: hidden;
+}
+
+.product-card img {
+  transition: transform 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.product-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Navigation */
+.nav-link {
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.nav-link:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background: linear-gradient(to right, #2563EB, #0EA5E9);
+  transition: width 0.2s ease;
+}
+
+.nav-link:hover:after {
+  width: 100%;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  animation: slideDown 0.2s ease-out forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Form Styles */
+.form-input {
+  transition: all 0.2s ease;
+  border: 1px solid #CBD5E1;
+}
+
+.form-input:focus {
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  outline: none;
+}
+
+/* Button Styles */
+.btn-primary {
+  background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1E40AF 0%, #1E3A8A 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+}
+
+.btn-secondary {
+  transition: all 0.2s ease;
+  border: 2px solid #2563EB;
+}
+
+.btn-secondary:hover {
+  background-color: #2563EB;
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Filter Buttons */
+.filter-btn {
+  transition: all 0.15s ease;
+}
+
+.filter-btn.active {
+  background-color: #2563EB;
+  color: white;
+  border-color: #2563EB;
+}
+
+/* Modal */
+.modal {
+  animation: modalEnter 0.2s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Fast loading optimizations */
+img {
+  content-visibility: auto;
+}
+
+/* Accessibility & Focus */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid #2563EB;
+  outline-offset: 2px;
+}
+
+/* Print friendly */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
