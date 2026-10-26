@@ -9,7 +9,7 @@
 
 ## Current Status (as of handoff)
 
-- Site is a standard Next.js 14 App Router application.
+- Site is a standard Next.js 16 App Router application.
 - GitHub repo: `https://github.com/ButchSwank/-bluewater-components.git`
 - The site is already live on Vercel as a **preview-only** environment (no custom domain).
 - We are **not** completing the Vercel custom domain setup. Production domain goes straight to Azure.
@@ -61,7 +61,7 @@ Azure will automatically commit a GitHub Actions workflow (`.github/workflows/az
 Once complete, you’ll get a public URL like:
 `https://<your-name>.azurestaticapps.net`
 
-Test the site thoroughly (especially the product catalog, modals, and contact form demo).
+Test the site thoroughly (especially the product catalog, modals, and the contact section, which emails sales instead of posting to a server).
 
 ---
 
@@ -105,8 +105,7 @@ Once the site is live on the custom domain:
 
 - Decide primary domain (apex vs www) and configure the redirect.
 - Review / expand `staticwebapp.config.json` for any additional headers or future protected routes (Entra ID).
-- Wire up the Contact Form (currently demo mode):
-  - Options: Azure Functions, Logic Apps, Resend, or Formspree.
+- The contact form does not submit to a server. Visitors email sales until a real endpoint exists (Azure Functions, Logic Apps, or another provider). Do not ship a placeholder form id.
 - Consider adding environment variables in the Azure portal (Configuration → Application settings) if the form or other features need secrets.
 
 ---

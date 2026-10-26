@@ -2,11 +2,11 @@
 
 Modern, professional website for Blue Water Components — Florida's electronics manufacturing services and components distributor.
 
-**Live preview:** Open `index.html` or run the Next.js dev server.
+**Live preview:** Run the Next.js dev server.
 
 ## Tech Stack
 
-- Next.js 14 (App Router)
+- Next.js 16 (App Router)
 - TypeScript
 - Tailwind CSS
 - Lucide Icons
@@ -14,8 +14,10 @@ Modern, professional website for Blue Water Components — Florida's electronics
 
 ## Getting Started
 
+This repo commits `package-lock.json`. Install from that lockfile so local and Vercel builds match (`vercel.json` sets `installCommand` to `npm ci`).
+
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
@@ -27,7 +29,7 @@ Open [http://localhost:3000](http://localhost:3000).
 - Fully responsive (mobile-first)
 - Fast loading with optimized images and minimal JS
 - Interactive product catalog with category filters + live search
-- Fully functional contact/quote form (demo + easy Formspree integration)
+- Quote form drafts an email in your mail app. It is not connected to a server endpoint.
 - Rich SEO: metadata, OpenGraph, JSON-LD structured data, sitemap, robots.txt
 - Accessible (keyboard nav, focus states, semantic markup)
 
@@ -36,7 +38,7 @@ Open [http://localhost:3000](http://localhost:3000).
 **Update content:**
 - `lib/data.ts` — services, products, company info
 - `app/page.tsx` — hero copy, additional sections
-- `components/ContactForm.tsx` — connect real backend (Formspree, Resend, etc.)
+- `components/ContactForm.tsx` — still unwired; visitors email `sales@bluewatercomponents.com` until a real endpoint is added
 
 **Images:**
 - All custom images live in `/public/images/`
@@ -47,21 +49,20 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Deployment
 
-Deploy instantly to Vercel, Netlify, or Cloudflare Pages.
+Deploy to Vercel, Netlify, or Cloudflare Pages. Vercel installs with `npm ci` from `package-lock.json`.
 
 ```bash
+npm ci
 npm run build
 ```
 
+Security headers are set in `next.config.mjs` (`headers()`) and `vercel.json`, so they apply on Vercel. Azure Static Web Apps reads `staticwebapp.config.json`.
+
 For pure static export, add `output: 'export'` in `next.config.mjs`.
 
-## Form Integration (Recommended)
+## Form Integration
 
-The contact form is ready for production. Replace the simulated submit with:
-
-1. **Formspree** (easiest): Add your form ID and uncomment fetch in ContactForm.
-2. **Resend + Server Action** (Next.js native)
-3. **Netlify / Vercel Forms**
+The quote form does **not** submit anywhere. It tells visitors that, then opens a `mailto:` draft to the sales address. Do not show a “request received” message until a real endpoint exists. When one is added, put its id in an uncommitted env file (`.env*` is gitignored; `.env.example` may be committed). Do not hard-code a placeholder form id.
 
 ## License
 

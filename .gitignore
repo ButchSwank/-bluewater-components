@@ -20,9 +20,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Local env files
-.env*.local
-.env
+# Local env files. Keep a template committed if one is added later.
+.env*
+!.env.example
 
 # Vercel
 .vercel

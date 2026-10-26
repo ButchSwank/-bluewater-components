@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Send, CheckCircle } from "lucide-react";
+import { Mail } from "lucide-react";
+import { companyInfo } from "@/lib/data";
 
 interface FormState {
   name: string;
@@ -21,52 +22,64 @@ const initialForm: FormState = {
   message: "",
 };
 
+function buildMailto(form: FormState): string {
+  const subject = `Quote request from ${form.name}`;
+  const body = [
+    `Name: ${form.name}`,
+    `Company: ${form.company}`,
+    `Email: ${form.email}`,
+    form.phone ? `Phone: ${form.phone}` : null,
+    `Service: ${form.service}`,
+    "",
+    form.message,
+  ]
+    .filter((line): line is string => line !== null)
+    .join("\n");
+
+  return `mailto:${companyInfo.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
 export default function ContactForm() {
   const [form, setForm] = useState<FormState>(initialForm);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [mailPrompted, setMailPrompted] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    setMailPrompted(false);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate API call - Replace with real endpoint (Formspree, Resend, etc.)
-    await new Promise((resolve) => setTimeout(resolve, 850));
-
-    // In production: 
-    // await fetch('https://formspree.io/f/YOUR_ID', { method: 'POST', body: JSON.stringify(form), headers: { 'Content-Type': 'application/json' } })
-    
-    setIsSubmitting(false);
-    setSubmitted(true);
-    
-    // Reset form after showing success
-    setTimeout(() => {
-      setForm(initialForm);
-      setSubmitted(false);
-    }, 3200);
+    // No server endpoint is configured. Hand the draft to the visitor's email app.
+    // The site does not receive or store this submission.
+    setMailPrompted(true);
+    const href = buildMailto(form);
+    // Let the "not received" status paint before the mail client takes over.
+    window.setTimeout(() => {
+      window.location.href = href;
+    }, 0);
   };
-
-  if (submitted) {
-    return (
-      <div className="bg-white border border-silver-200 rounded-3xl p-12 text-center">
-        <div className="mx-auto w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-6">
-          <CheckCircle size={34} />
-        </div>
-        <h3 className="text-2xl font-semibold tracking-tight mb-3">Thank you, {form.name.split(" ")[0] || "there"}.</h3>
-        <p className="text-silver-500 text-lg max-w-xs mx-auto">
-          Your quote request has been received. A member of our team will contact you within 4 business hours.
-        </p>
-      </div>
-    );
-  }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white border border-silver-200 rounded-3xl p-8 md:p-10">
+    <form
+      onSubmit={handleSubmit}
+      action={`mailto:${companyInfo.email}`}
+      method="post"
+      encType="text/plain"
+      className="bg-white border border-silver-200 rounded-3xl p-8 md:p-10"
+    >
+      <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-navy-900" role="status">
+        <p className="font-semibold">This form is not connected yet.</p>
+        <p className="mt-1 text-silver-500">
+          Nothing you type here is sent to Blue Water. Use the button to open your email app, or write directly to{" "}
+          <a href={`mailto:${companyInfo.email}`} className="text-blue-600 underline">
+            {companyInfo.email}
+          </a>
+          . We only receive the message after you send that email.
+        </p>
+      </div>
+
       <div className="grid md:grid-cols-2 gap-5">
         <div>
           <label htmlFor="name" className="block text-sm font-medium mb-2 text-navy-900">Full Name</label>
@@ -159,15 +172,20 @@ export default function ContactForm() {
 
       <button
         type="submit"
-        disabled={isSubmitting}
-        className="btn-primary mt-7 w-full md:w-auto px-10 py-4 rounded-2xl text-white font-semibold flex items-center justify-center gap-3 disabled:opacity-80 disabled:cursor-not-allowed"
+        className="btn-primary mt-7 w-full md:w-auto px-10 py-4 rounded-2xl text-white font-semibold flex items-center justify-center gap-3"
       >
-        {isSubmitting ? "Submitting Request..." : "Submit Quote Request"}
-        {!isSubmitting && <Send size={18} />}
+        Email this request
+        <Mail size={18} />
       </button>
 
+      {mailPrompted && (
+        <p className="text-sm text-navy-900 mt-4" role="status">
+          Your email app should open with this draft. This website did not receive it. Send the email to deliver it to {companyInfo.email}.
+        </p>
+      )}
+
       <p className="text-xs text-silver-400 mt-5">
-        We respect your privacy. Your information will only be used to respond to your inquiry. Typical response time is under 4 hours during business days.
+        The website does not store this form. If you send the email, we use it only to respond to your inquiry.
       </p>
     </form>
   );
