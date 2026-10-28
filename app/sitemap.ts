@@ -26,5 +26,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'yearly',
       priority: 0.7,
     },
+    {
+      url: 'https://bluewatercomponents.com/di-mgmt-82274-rev-a-explained',
+      lastModified: new Date('2026-10-26'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://bluewatercomponents.com/sd-26-predictive-tools-design-health',
+      lastModified: new Date('2026-10-26'),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
   ];
 }
