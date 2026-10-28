@@ -10,6 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://bluewatercomponents.com"),
   title: "Blue Water Components | SONAR AI — DMSMS & Obsolescence Intelligence",
   description: "SONAR AI is a proactive research tool for DMSMS and obsolescence management. Built by aerospace electronics experts with deep real-world supply chain experience. CMMC Level 1 and NIST 800-171 aligned.",
   keywords: [
